@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var pLo: CGFloat = 0
     private var lifeCount: Int = 0
     private let preloadSound = SKAction.playSoundFileNamed("shootingSound.wav", waitForCompletion: false)
+    private var somethingTest: Int?
     
     
     override func didMove(to view: SKView) {
