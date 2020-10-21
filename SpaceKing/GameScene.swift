@@ -21,8 +21,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var pLo: CGFloat = 0
     private var lifeCount: Int = 0
     private let preloadSound = SKAction.playSoundFileNamed("shootingSound.wav", waitForCompletion: false)
-    private var somethingTest: Int?
-    
     
     override func didMove(to view: SKView) {
         motion.startAccelerometerUpdates()
@@ -55,15 +53,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
-        guard let touchCunt = event?.allTouches?.count else {return}
+        guard let touchCount = event?.allTouches?.count else {return}
         
         let location    = touch.location(in: self)
         let x           = (location.x - spaceShip.position.x) * 0.1
         let y           = (location.y - (122)) * 0.1
         let vector      = CGVector(dx: x, dy: y)
         
-        print(touchCunt)
-        if touchCunt == 1 {
+        if touchCount == 1 {
             fireMissle(vector)
             playSound(preloadSound)
         }
