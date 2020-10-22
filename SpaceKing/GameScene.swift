@@ -27,14 +27,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         background()
         spaceShips()
-        //shootingStars()
         score()
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         timerSpawn()
         barriers()
         puppyStitch()
         top()
-        //print(self.frame)
         
     }
     
@@ -90,9 +88,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
         
-        /*if contact.bodyA.node?.name == "enemy" || contact.bodyB.node?.name == "bottomEdge" {
-         contact.bodyA.node?.removeFromParent()
-         }*/
         
         if contact.bodyA.node?.name == "bottomEdge" || contact.bodyB.node?.name == "enemy" {
             contact.bodyB.node?.removeFromParent()
