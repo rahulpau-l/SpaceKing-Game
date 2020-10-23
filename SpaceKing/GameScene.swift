@@ -42,10 +42,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let data = motion.accelerometerData else { return }
         pLo = CGFloat(100 * data.acceleration.x)
         spaceShip.physicsBody?.applyForce(CGVector(dx: pLo, dy: 0))
-        if lifeCount > 3 {
-            gameOver()
-        }
-        
+        gameOver()
         
     }
     
@@ -90,6 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if contact.bodyA.node?.name == "bottomEdge" || contact.bodyB.node?.name == "enemy" {
+            lifeCount += 1;
             contact.bodyB.node?.removeFromParent()
         }
         
@@ -97,8 +95,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.node?.name == "top" && contact.bodyB.node?.name == "missle" {
             contact.bodyB.node?.removeFromParent()
         }
-        
-        
         
         
         if contact.bodyA.node?.name == "stitch" && contact.bodyB.node?.name == "missle" {
@@ -121,6 +117,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        if contact.bodyA.node?.name == "spaceship" || contact.bodyB.node?.name == "enemy"{
+            lifeCount += 1;
+            print("I'm hit!")
+        }
+        
+        if contact.bodyA.node?.name == "enemy"  || contact.bodyB.node?.name == "spaceship"{
+            lifeCount += 1;
+            print("I'm hit!")
+        }
         
     }
     
@@ -182,7 +187,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let spaceTexture = SKTexture(imageNamed: "spaceship.png")
         spaceTexture.filteringMode = .nearest
         spaceShip = SKSpriteNode(texture: spaceTexture)
-        spaceShip.zPosition = 5
+        spaceShip.zPosition = 10
         spaceShip.name = "spaceship"
         spaceShip.position = CGPoint(x: size.width/2, y: 70)
         spaceShip.size = CGSize(width: 192, height: 192)
@@ -249,15 +254,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    
-    /*func shootingStars() {
-     guard let stars = SKEmitterNode(fileNamed: "MyParticle.sks") else { return }
-     stars.advanceSimulationTime(10)
-     stars.zPosition = 10
-     stars.position = spaceShip.position
-     addChild(stars)
-     }*/
-    
     func barriers() {
         let leftEdge = SKSpriteNode(color: .clear, size: CGSize(width: 10, height: size.height))
         leftEdge.name = "leftEdge"
@@ -297,7 +293,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func top() {
-        let top = SKSpriteNode(color: .black, size: CGSize(width: size.width, height: 10))
+        let top = SKSpriteNode(color: .clear, size: CGSize(width: size.width, height: 10))
         top.position = CGPoint(x: size.width/2, y: size.height)
         top.name = "top"
         
@@ -312,12 +308,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(top)
     }
     
-    func atomizer() {
-        //let sucker = SKFieldNode.magneticField()
-        //sucker.texture = SKTexture(imageNamed: <#T##String#>)
-    }
+
     
     func gameOver(){
+        if lifeCount == 3 {
+            exit(0)
+        }
         
     }
     
