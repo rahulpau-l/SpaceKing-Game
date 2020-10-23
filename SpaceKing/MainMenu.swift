@@ -67,7 +67,7 @@ class MainMenu: SKScene, SKPhysicsContactDelegate {
     func titleLabel() {
         let title = SKLabelNode(fontNamed: "8-Bit Madness")
         title.text = "SpaceKing"
-        title.color = .white
+        title.fontColor = .orange
         title.fontSize = 50
         title.position = CGPoint(x: size.width/2, y: size.height/2)
         title.horizontalAlignmentMode = .center
@@ -78,10 +78,10 @@ class MainMenu: SKScene, SKPhysicsContactDelegate {
     func tapAnyWhereToPlay() {
         let tap = SKLabelNode(fontNamed: "8-Bit Madness")
         tap.text = "Tap anywhere to play!"
-        tap.color = .white
+        tap.fontColor = .white
         tap.fontSize = 30
         tap.horizontalAlignmentMode = .center
-        tap.position = CGPoint(x: size.width/2, y: size.height/2 - 50)
+        tap.position = CGPoint(x: size.width/2, y: size.height/2 - 30)
         addChild(tap)
     }
     

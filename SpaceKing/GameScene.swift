@@ -312,7 +312,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func gameOver(){
         if lifeCount == 3 {
-            exit(0)
+            let scene = GameOver(fileNamed: "GameOver")!
+            let transition = SKTransition.moveIn(with: .left, duration: 0.6)
+            self.view?.presentScene(scene, transition: transition)
         }
         
     }
