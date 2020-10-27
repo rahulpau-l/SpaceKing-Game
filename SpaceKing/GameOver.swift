@@ -11,9 +11,14 @@ import SpriteKit
 
 class GameOver: SKScene {
     
+    var score: Int = 0
+    
+    
     override func didMove(to view: SKView) {
         background()
         gameOverLabel()
+        scoreLabel()
+
        
     }
     
@@ -54,6 +59,16 @@ class GameOver: SKScene {
         over.horizontalAlignmentMode = .center
         over.zPosition = 10
         addChild(over)
+    }
+    
+    func scoreLabel(){
+        let currentScore = SKLabelNode(fontNamed:  "8-Bit Madness")
+        currentScore.text = ("Current Score: \(score)")
+        currentScore.fontColor = .green
+        currentScore.fontSize = 40
+        currentScore.position = CGPoint(x: size.width/2, y: size.height/2 - 80)
+        currentScore.horizontalAlignmentMode = .center
+        addChild(currentScore)
     }
     
     
