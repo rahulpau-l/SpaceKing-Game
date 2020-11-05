@@ -18,8 +18,6 @@ class GameOver: SKScene {
         background()
         gameOverLabel()
         scoreLabel()
-
-       
     }
     
     override func update(_ currentTime: TimeInterval) {
