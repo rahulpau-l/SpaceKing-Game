@@ -17,10 +17,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var scoreLabel: SKLabelNode!
     private var missle:     SKSpriteNode!
     private var spaceShip: SKSpriteNode!
-    private var scores: Int = 0
+    private var currentScore: Int = 0
     private var pLo: CGFloat = 0
     private var lifeCount: Int = 0
     private let preloadSound = SKAction.playSoundFileNamed("shootingSound.wav", waitForCompletion: false)
+    private let userDefualts = UserDefaults()
+    
     
     override func didMove(to view: SKView) {
         motion.startAccelerometerUpdates()
@@ -38,12 +40,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         movingStars()
-        scoreLabel.text = "Score: \(scores)"
+        gameOver()
+        scoreLabel.text = "Score: \(currentScore)"
         guard let data = motion.accelerometerData else { return }
         pLo = CGFloat(100 * data.acceleration.x)
         spaceShip.physicsBody?.applyForce(CGVector(dx: pLo, dy: 0))
-        gameOver()
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -74,28 +75,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.node?.name == "missle" && contact.bodyB.node?.name == "enemy" {
             contact.bodyA.node?.removeFromParent()
             contact.bodyB.node?.removeFromParent()
-            scores += 1
+            currentScore += 1
             return
         }
         
         if contact.bodyA.node?.name == "enemy" && contact.bodyB.node?.name == "missle" {
             contact.bodyA.node?.removeFromParent()
             contact.bodyB.node?.removeFromParent()
-            scores += 1
+            currentScore += 1
             return
         }
         
         
         if contact.bodyA.node?.name == "bottomEdge" || contact.bodyB.node?.name == "enemy" {
             lifeCount += 1;
+            print("Im hit 1")
             contact.bodyB.node?.removeFromParent()
         }
-        
-        
-        if contact.bodyA.node?.name == "top" && contact.bodyB.node?.name == "missle" {
-            contact.bodyB.node?.removeFromParent()
-        }
-        
+
         
         if contact.bodyA.node?.name == "stitch" && contact.bodyB.node?.name == "missle" {
             contact.bodyA.node?.removeFromParent()
@@ -115,16 +112,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     child.removeFromParent()
                 }
             }
-        }
-        
-        if contact.bodyA.node?.name == "spaceship" || contact.bodyB.node?.name == "enemy"{
-            lifeCount += 1;
-            print("I'm hit!")
-        }
-        
-        if contact.bodyA.node?.name == "enemy"  || contact.bodyB.node?.name == "spaceship"{
-            lifeCount += 1;
-            print("I'm hit!")
         }
         
     }
@@ -313,10 +300,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func gameOver(){
         if lifeCount == 3 {
             let scene = GameOver(fileNamed: "GameOver")!
-            scene.score = scores
+            let score = checkScore()
+            scene.score = score
             let transition = SKTransition.moveIn(with: .left, duration: 0.6)
             self.view?.presentScene(scene, transition: transition)
         }
+        
+    }
+        
+   
+    func checkScore() -> Int {
+        
+        let score = userDefualts.value(forKey: "highScore") as! Int
+        if score >= currentScore {
+            //print("\(currentScore) and \(score)")
+            userDefualts.setValue(score, forKey: "highScore")
+            return score
+            
+        }
+        
+        userDefualts.setValue(currentScore, forKey: "highScore")
+        //print("\(currentScore) and \(score)")
+        return currentScore
+        
         
     }
     

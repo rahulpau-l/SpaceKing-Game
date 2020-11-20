@@ -61,10 +61,10 @@ class GameOver: SKScene {
     
     func scoreLabel(){
         let currentScore = SKLabelNode(fontNamed:  "8-Bit Madness")
-        currentScore.text = ("Current Score: \(score)")
+        currentScore.text = ("High Score: \(score)")
         currentScore.fontColor = .green
         currentScore.fontSize = 40
-        currentScore.position = CGPoint(x: size.width/2, y: size.height/2 - 80)
+        currentScore.position = CGPoint(x: size.width/2, y: size.height/2 - 50)
         currentScore.horizontalAlignmentMode = .center
         addChild(currentScore)
     }
